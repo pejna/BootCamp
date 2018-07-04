@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { ScreenNewsList } from './screens/NewsList';
-import { ScreenNewsDetails } from './screens/NewsDetails';
+import { View, StyleSheet } from 'react-native';
+import NewsDetails from './screens/NewsDetails';
+import NewsList from './screens/NewsList';
 
 export default class App extends Component {
   constructor(props) {
@@ -14,8 +14,8 @@ export default class App extends Component {
   render() {
     return (
       <View>
-        {!isNewsSelected && <ScreenNewsList articles={state.articles}/>}
-        {isNewsSelected && <ScreenNewsDetails />}
+        {this.state.isNewsSelected && <NewsDetails />}
+        {!this.state.isNewsSelected && <NewsList />}
       </View>
     );
   }
@@ -23,4 +23,4 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
 
-});
+})

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export class NewsDetailsBody extends Component {
+export default class NewsDetailsBody extends Component {
     render() {
         return (
             <View>

@@ -13,8 +13,8 @@ export default class NewsListItem extends Component {
         return (
             <TouchableOpacity onPress={this.onItemPress}>
                 <Text>{this.props.newsItem.headline}</Text>
-                <Text>{props.newsItem.source}</Text>
-                <Text>{props.newsItem.snippet}</Text>     
+                <Text>{this.props.newsItem.source}</Text>
+                <Text>{this.props.newsItem.snippet}</Text>     
             </TouchableOpacity>
         );
     }
