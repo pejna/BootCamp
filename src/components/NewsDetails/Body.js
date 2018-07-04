@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 export class NewsDetailsBody extends Component {
     render() {
@@ -10,3 +10,7 @@ export class NewsDetailsBody extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+
+});

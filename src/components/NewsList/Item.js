@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-export class NewsListItem extends Component {
+
+
+export default class NewsListItem extends Component {
+
+    onItemPress(){
+
+    }
+
     render() {
         return (
-            <View>
-
-            </View>
+            <TouchableOpacity onPress={this.onItemPress}>
+                <Text>{this.props.newsItem.headline}</Text>
+                <Text>{props.newsItem.source}</Text>
+                <Text>{props.newsItem.snippet}</Text>     
+            </TouchableOpacity>
         );
     }
 }
+
+const styles = StyleSheet.create({
+
+});

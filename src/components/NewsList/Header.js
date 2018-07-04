@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-export class NewsListHeader extends Component {
+export default class NewsListHeader extends Component {
     render() {
         return (
             <View>
@@ -10,3 +10,7 @@ export class NewsListHeader extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+
+});
