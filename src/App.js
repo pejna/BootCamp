@@ -19,8 +19,39 @@ export default class App extends Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchNews();
+  }
+
+  async fetchNews() {
+    try {
+      this.setState({ isLoading: true });
+      const response = await fetch(
+        'https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=718c5c8e6f1e4af3afcc4611eb5d690c'
+      );
+      const responseJson = await response.json();
+      this.parseArticles(responseJson);
+    } catch (error) {
+      this.setState({ isLoading: false });
+    }
+  }
+
+  parseArticles(responseJson) {
+    if (responseJson.status === 'OK') {
+      this.setState({
+        isNewsAvailable: true,
+        articles: responseJson.response.docs,
+        isLoading: false,
+      });
+    } else {
+      this.setState({ isNewsAvailable: false, isLoading: false });
+    }
+  }
+
   render() {
-    if (this.state.isLoading) {
+    const { isLoading, isNewsAvailable, isNewsSelected, articles } = this.state;
+
+    if (isLoading) {
       return (
         <View style={styles.container}>
           <ActivityIndicator
@@ -31,54 +62,19 @@ export default class App extends Component {
         </View>
       );
     }
-    if (this.state.isNewsAvailable) {
+    if (isNewsAvailable) {
       return (
         <View style={styles.container}>
-          {this.state.isNewsSelected && <NewsDetails />}
-          {!this.state.isNewsSelected && (
-            <NewsList articles={this.state.articles} />
-          )}
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <Text>No news currently available!</Text>
+          {isNewsSelected && <NewsDetails />}
+          {!isNewsSelected && <NewsList articles={articles} />}
         </View>
       );
     }
-  }
-
-  componentDidMount() {
-    this.fetchNews();
-  }
-
-  async fetchNews() {
-    try {
-      this.setState({ isLoading: true });
-      let response = await fetch(
-        'https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=718c5c8e6f1e4af3afcc4611eb5d690c'
-      );
-      let responseJson = await response.json();
-      this.parseArticles(responseJson);
-    } catch (error) {
-      this.setState({ isLoading: false });
-      console.log(error);
-    }
-  }
-
-  parseArticles(responseJson) {
-    console.log(responseJson);
-
-    if (responseJson.status === 'OK') {
-      this.setState({
-        isNewsAvailable: true,
-        articles: responseJson.response.docs,
-        isLoading: false,
-      });
-    } else {
-      this.setState({ isNewsAvailable: false, isLoading: false });
-    }
+    return (
+      <View style={styles.container}>
+        <Text>No news currently available!</Text>
+      </View>
+    );
   }
 }
 

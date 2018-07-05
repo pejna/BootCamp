@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 export default class NewsListItem extends Component {
-  onItemPress() {}
-
   render() {
     const { newsItem } = this.props;
     const { headline, source, snippet } = newsItem;
 
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onItemPress}>
+      <TouchableOpacity style={styles.container}>
         <Text>{headline.main}</Text>
         <Text>{source}</Text>
         <Text>{snippet}</Text>
