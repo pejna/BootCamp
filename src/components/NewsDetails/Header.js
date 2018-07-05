@@ -5,7 +5,7 @@ export default class NewsDetailsHeader extends Component {
     render() {
         return (
             <View>
-                <Text>Header</Text>
+                <Text>Details Header</Text>
             </View>
         );
     }
