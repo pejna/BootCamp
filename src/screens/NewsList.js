@@ -3,6 +3,16 @@ import { View, StyleSheet, FlatList, Text } from 'react-native';
 import NewsListItem from '../components/NewsList/Item';
 
 export default class NewsList extends Component {
+  constructor(props) {
+    super(props);
+    this.onNewsPressed.bind(this);
+  }
+
+  handleNewsPressed(itemId) {
+    const { onNewsSelected } = this.props;
+    onNewsSelected(itemId);
+  }
+
   render() {
     const { articles } = this.props;
 
@@ -16,7 +26,9 @@ export default class NewsList extends Component {
           style={[styles.content, styles.newsList]}
           data={articles}
           keyExtractor={item => item._id}
-          renderItem={({ item }) => <NewsListItem newsItem={item} />}
+          renderItem={({ item }) => (
+            <NewsListItem newsItem={item} onPress={this.handleNewsPressed} />
+          )}
         />
       </View>
     );

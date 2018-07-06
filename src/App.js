@@ -16,11 +16,22 @@ export default class App extends Component {
       isNewsSelected: false,
       isNewsAvailable: false,
       isLoading: false,
+      article,
     };
+    this.handleNewsSelected.bind(this);
+    this.handleDetailsClose.bind(this);
   }
 
   componentDidMount() {
     this.fetchNews();
+  }
+
+  handleNewsSelected(article) {
+    this.setState({ isNewsSelected: true, article });
+  }
+
+  handleDetailsClose() {
+    this.setState({ isNewsSelected: false });
   }
 
   async fetchNews() {
@@ -63,10 +74,21 @@ export default class App extends Component {
       );
     }
     if (isNewsAvailable) {
+      const { article } = this.state;
       return (
         <View style={styles.container}>
-          {isNewsSelected && <NewsDetails />}
-          {!isNewsSelected && <NewsList articles={articles} />}
+          {isNewsSelected && (
+            <NewsDetails
+              article={article}
+              onDetailsClose={this.handleDetailsClose}
+            />
+          )}
+          {!isNewsSelected && (
+            <NewsList
+              articles={articles}
+              onNewsSelected={this.handleNewsSelected}
+            />
+          )}
         </View>
       );
     }
