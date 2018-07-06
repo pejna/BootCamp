@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, FlatList, Text } from 'react-native';
-import NewsListItem from '../components/NewsList/Item';
+import { NewsListItem } from '../components';
 
 export default class NewsList extends Component {
   constructor(props) {
     super(props);
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
+    this.handleNewsListRefresh = this.handleNewsListRefresh.bind(this);
   }
 
   handleNewsPressed(itemId) {
     const { onNewsSelected } = this.props;
     onNewsSelected(itemId);
+  }
+
+  handleNewsListRefresh() {
+    const { onRefresh } = this.props;
+
+    onRefresh();
   }
 
   render() {
@@ -27,7 +34,11 @@ export default class NewsList extends Component {
           data={articles}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
-            <NewsListItem newsItem={item} onPress={this.handleNewsPressed} />
+            <NewsListItem
+              newsItem={item}
+              onPress={this.handleNewsPressed}
+              onRefresh={this.handleNewsListRefresh}
+            />
           )}
         />
       </View>

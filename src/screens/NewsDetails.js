@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import NewsDetailsHeader from '../components/NewsDetails/Header';
-import NewsDetailsBody from '../components/NewsDetails/Body';
+import PropTypes from 'prop-types';
+
+import { NewsDetailsBody, NewsDetailsHeader } from '../components/NewsDetails';
 
 export default class NewsDetails extends Component {
   constructor(props) {
@@ -23,3 +24,7 @@ export default class NewsDetails extends Component {
     );
   }
 }
+
+NewsDetails.propTypes = {
+  onDetailsClose: PropTypes.func.isRequired,
+};
