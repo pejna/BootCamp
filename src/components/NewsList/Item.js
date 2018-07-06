@@ -4,12 +4,11 @@ import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 export default class NewsListItem extends Component {
   constructor(props) {
     super(props);
-    this.handleItemPress.bind(this);
+    this.handleItemPress = this.handleItemPress.bind(this);
   }
 
   handleItemPress() {
-    const { onPress } = this.props;
-    const { newsItem } = this.props;
+    const { newsItem, onPress } = this.props;
     const { _id: id } = newsItem;
     onPress(id);
   }

@@ -16,10 +16,10 @@ export default class App extends Component {
       isNewsSelected: false,
       isNewsAvailable: false,
       isLoading: false,
-      article,
+      article: {},
     };
-    this.handleNewsSelected.bind(this);
-    this.handleDetailsClose.bind(this);
+    this.handleNewsSelected = this.handleNewsSelected.bind(this);
+    this.handleDetailsClose = this.handleDetailsClose.bind(this);
   }
 
   componentDidMount() {

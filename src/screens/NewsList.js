@@ -5,7 +5,7 @@ import NewsListItem from '../components/NewsList/Item';
 export default class NewsList extends Component {
   constructor(props) {
     super(props);
-    this.onNewsPressed.bind(this);
+    this.handleNewsPressed = this.handleNewsPressed.bind(this);
   }
 
   handleNewsPressed(itemId) {

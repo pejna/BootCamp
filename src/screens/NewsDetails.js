@@ -4,10 +4,20 @@ import NewsDetailsHeader from '../components/NewsDetails/Header';
 import NewsDetailsBody from '../components/NewsDetails/Body';
 
 export default class NewsDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.handleDetailsClose = this.handleDetailsClose.bind(this);
+  }
+
+  handleDetailsClose() {
+    const { onDetailsClose } = this.props;
+    onDetailsClose();
+  }
+
   render() {
     return (
       <View>
-        <NewsDetailsHeader />
+        <NewsDetailsHeader onBackPress={this.handleDetailsClose} />
         <NewsDetailsBody />
       </View>
     );
