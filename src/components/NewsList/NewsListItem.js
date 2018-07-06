@@ -10,8 +10,7 @@ class NewsListItem extends Component {
 
   handleItemPress() {
     const { newsItem, onPress } = this.props;
-    const { _id: id } = newsItem;
-    onPress(id);
+    onPress(newsItem);
   }
 
   render() {
