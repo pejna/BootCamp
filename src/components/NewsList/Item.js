@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import PropTypes from 'prop-types';
 
-export default class NewsListItem extends Component {
+class NewsListItem extends Component {
   constructor(props) {
     super(props);
     this.handleItemPress = this.handleItemPress.bind(this);
@@ -34,3 +35,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default NewsListItem;
+
+NewsListItem.propTypes = {
+  newsItem: PropTypes.shape({
+    headline: PropTypes.shape({
+      main: PropTypes.string.isRequired,
+    }).isRequired,
+    source: PropTypes.string,
+    snipped: PropTypes.string,
+    _id: PropTypes.string,
+  }),
+  onPress: PropTypes.func,
+};

@@ -12,6 +12,7 @@ import NewsList from './screens/NewsList';
 export default class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isNewsSelected: false,
       isNewsAvailable: false,
@@ -73,6 +74,7 @@ export default class App extends Component {
         </View>
       );
     }
+
     if (isNewsAvailable) {
       const { article } = this.state;
       return (
