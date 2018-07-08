@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 class NewsListItem extends Component {
@@ -19,9 +19,13 @@ class NewsListItem extends Component {
 
     return (
       <TouchableOpacity style={styles.container} onPress={this.handleItemPress}>
-        <Text>{headline.main}</Text>
-        <Text>{source}</Text>
-        <Text>{snippet}</Text>
+        <View style={styles.headlineView}>
+          <Text style={styles.headlineText}>{headline.main}</Text>
+        </View>
+        <Text style={styles.snippetText}>{snippet}</Text>
+        <View style={styles.sourceView}>
+          <Text style={styles.sourceText}>{source}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -29,9 +33,28 @@ class NewsListItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: 'red',
-    borderWidth: 1,
+    borderColor: 'black',
+    borderBottomWidth: 1,
     flex: 1,
+  },
+  headlineView: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+  },
+  headlineText: {
+    fontWeight: 'bold',
+    color: '#303568',
+  },
+  snippetText: {
+    color: '#202020',
+  },
+  sourceView: {
+    flexDirection: 'row',
+  },
+  sourceText: {
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: '#995555',
   },
 });
 
