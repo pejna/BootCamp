@@ -18,6 +18,8 @@ export default class NewsList extends Component {
     this.handleFetchedNews = this.handleFetchedNews.bind(this);
     this.startLoading = this.startLoading.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
+    this.handleCategoriesPress = this.handleCategoriesPress.bind(this);
+    this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +55,10 @@ export default class NewsList extends Component {
     });
   }
 
+  handleCategoriesPress() {}
+
+  handleFavoritesPress() {}
+
   render() {
     const { articles } = this.state;
     const { isRefreshing, isNewsAvailable } = this.state;
@@ -67,7 +73,11 @@ export default class NewsList extends Component {
 
     return (
       <View style={styles.container}>
-        <NewsListHeader style={(styles.container, styles.header)} />
+        <NewsListHeader
+          style={(styles.container, styles.header)}
+          onCategoriesPress={this.handleCategoriesPress}
+          onFavoritesPress={this.handleFavoritesPress}
+        />
 
         <FlatList
           style={[styles.content, styles.newsList]}
@@ -92,14 +102,13 @@ const styles = StyleSheet.create({
   content: {},
   newsList: {
     backgroundColor: '#FFFFFF',
-    flex: 1,
+    flex: 10,
     flexDirection: 'column',
     paddingHorizontal: 10,
   },
   header: {
     padding: 10,
     paddingVertical: 20,
-    flex: 1,
     backgroundColor: '#ff9966',
   },
 });
