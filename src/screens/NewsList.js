@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { View, StyleSheet, FlatList, Text } from 'react-native';
 import { NewsListItem } from '../components';
 import { fetchNews } from '../api';
+import { NewsListHeader } from '../components/NewsList';
 
 export default class NewsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isRefreshing: false,
+      isRefreshing: true,
       isNewsAvailable: false,
       articles: {},
     };
@@ -66,9 +67,7 @@ export default class NewsList extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={(styles.content, styles.header)}>
-          <Text>List Header</Text>
-        </View>
+        <NewsListHeader style={(styles.container, styles.header)} />
 
         <FlatList
           style={[styles.content, styles.newsList]}
