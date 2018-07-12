@@ -16,10 +16,12 @@ export default class NewsDetails extends Component {
   }
 
   render() {
+    const { article } = this.props;
+
     return (
       <View>
         <NewsDetailsHeader onBackPress={this.handleDetailsClose} />
-        <NewsDetailsBody />
+        <NewsDetailsBody article={article} />
       </View>
     );
   }
