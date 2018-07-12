@@ -14,11 +14,14 @@ class NewsListItem extends Component {
   }
 
   render() {
-    const { newsItem } = this.props;
+    const { newsItem, style } = this.props;
     const { headline, source, snippet } = newsItem;
 
     return (
-      <TouchableOpacity style={styles.container} onPress={this.handleItemPress}>
+      <TouchableOpacity
+        style={(style, styles.container)}
+        onPress={this.handleItemPress}
+      >
         <View style={styles.headlineView}>
           <Text style={styles.headlineText}>{headline.main}</Text>
         </View>
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
   container: {
     borderColor: 'black',
     borderBottomWidth: 1,
+    backgroundColor: '#FFFFFF',
     flex: 1,
   },
   headlineView: {

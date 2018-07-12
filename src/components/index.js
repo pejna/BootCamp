@@ -1,1 +1,1 @@
-export { NewsListItem } from './NewsList';
+export { NewsListItem, NewsListBody, NewsListHeader } from './NewsList';
