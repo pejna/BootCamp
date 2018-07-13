@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { fetchNews } from '../api';
 import { NewsListHeader, NewsListBody } from '../components';
 
-export default class NewsList extends Component {
+export default class ScreenNewsList extends Component {
   constructor(props) {
     super(props);
     const { articles: art } = props;

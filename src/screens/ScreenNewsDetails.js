@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-
 import { NewsDetailsBody, NewsDetailsHeader } from '../components/NewsDetails';
 
-export default class NewsDetails extends Component {
+export default class ScreenNewsDetails extends Component {
   constructor(props) {
     super(props);
     this.handleDetailsClose = this.handleDetailsClose.bind(this);
@@ -36,6 +35,6 @@ const styles = StyleSheet.create({
   body: { flex: 1 },
 });
 
-NewsDetails.propTypes = {
+ScreenNewsDetails.propTypes = {
   onDetailsClose: PropTypes.func.isRequired,
 };

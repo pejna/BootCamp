@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { NewsDetails, NewsList } from './screens';
+import { ScreenNewsDetails, ScreenNewsList } from './screens';
 
 export default class App extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class App extends Component {
 
       return (
         <View style={styles.container}>
-          <NewsDetails
+          <ScreenNewsDetails
             article={article}
             onDetailsClose={this.handleDetailsClose}
           />
@@ -43,7 +43,7 @@ export default class App extends Component {
 
     return (
       <View style={styles.container}>
-        <NewsList
+        <ScreenNewsList
           articles={articles}
           onNewsSelected={this.handleNewsSelected}
         />
