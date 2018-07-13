@@ -36,8 +36,6 @@ class NewsListItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: 'black',
-    borderBottomWidth: 1,
     backgroundColor: '#FFFFFF',
     flex: 1,
   },

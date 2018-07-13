@@ -8,17 +8,17 @@ export default class NewsList extends Component {
     super(props);
 
     this.state = {
-      isRefreshing: true,
+      isRefreshing: false,
       articles: [],
       page: 0,
     };
 
-    this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.refresh = this.refresh.bind(this);
     this.startLoading = this.startLoading.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
     this.handleCategoriesPress = this.handleCategoriesPress.bind(this);
     this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   componentDidMount() {
@@ -26,28 +26,61 @@ export default class NewsList extends Component {
   }
 
   async refresh() {
-    const { page } = this.state;
+    const { isRefreshing } = this.state;
+    if (isRefreshing) {
+      console.log('prevented refreshing');
+      return;
+    }
     this.startLoading();
-    const articles = await fetchNews(page);
-    this.setState({ articles });
+    console.log('refreshing');
+
+    const page = 0;
+
+    try {
+      const articles = await fetchNews(page);
+      this.setState({ articles, page });
+    } catch (e) {
+      // intentionally empty
+    }
+
     this.stopLoading();
   }
 
-  handleNewsPressed(article) {
-    const { onNewsSelected } = this.props;
-    onNewsSelected(article);
+  async loadMore() {
+    const { isRefreshing } = this.state;
+    if (isRefreshing) {
+      console.log('prevented loading more');
+      return;
+    }
+    this.startLoading();
+
+    let { page } = this.state;
+    const { articles } = this.state;
+    page += 1;
+    console.log(`loading more at ${page + 1}`);
+
+    try {
+      const newArticles = await fetchNews(page);
+      this.setState({ articles: [...articles, ...newArticles], page });
+    } catch (e) {
+      // intentionally empty
+    }
+
+    this.stopLoading();
   }
 
   startLoading() {
     this.setState({
       isRefreshing: true,
     });
+    console.log('start loading');
   }
 
   stopLoading() {
     this.setState({
       isRefreshing: false,
     });
+    console.log('stop loading');
   }
 
   handleCategoriesPress() {}
@@ -56,7 +89,7 @@ export default class NewsList extends Component {
 
   render() {
     const { articles, isRefreshing } = this.state;
-
+    const { onNewsSelected } = this.props;
     return (
       <View style={styles.container}>
         <NewsListHeader
@@ -69,8 +102,9 @@ export default class NewsList extends Component {
           style={styles.body}
           articles={articles}
           onRefresh={this.refresh}
+          onLoadMore={this.loadMore}
           isRefreshing={isRefreshing}
-          onNewsPressed={this.handleNewsPressed}
+          onNewsPressed={onNewsSelected}
         />
       </View>
     );
