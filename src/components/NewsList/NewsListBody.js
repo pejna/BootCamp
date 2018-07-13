@@ -51,8 +51,8 @@ export default class NewsListBody extends Component {
 
     if (isListScrolled) {
       const { onLoadMore } = this.props;
-      this.setState({ isListScrolled: false });
-      onLoadMore();
+      const loaded = onLoadMore();
+      this.setState({ isListScrolled: !loaded });
     }
   }
 

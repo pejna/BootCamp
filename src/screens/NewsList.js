@@ -59,7 +59,7 @@ export default class NewsList extends Component {
     const { isRefreshing } = this.state;
     if (isRefreshing) {
       console.log('prevented loading more');
-      return;
+      return false;
     }
     this.startLoading();
 
@@ -76,6 +76,7 @@ export default class NewsList extends Component {
     }
 
     this.stopLoading();
+    return true;
   }
 
   startLoading() {
