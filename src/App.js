@@ -9,13 +9,14 @@ export default class App extends Component {
     this.state = {
       isNewsSelected: false,
       article: {},
+      articles: [],
     };
     this.handleNewsSelected = this.handleNewsSelected.bind(this);
     this.handleDetailsClose = this.handleDetailsClose.bind(this);
   }
 
-  handleNewsSelected(article) {
-    this.setState({ article, isNewsSelected: true });
+  handleNewsSelected(article, articles) {
+    this.setState({ article, articles, isNewsSelected: true });
   }
 
   handleDetailsClose() {
@@ -25,18 +26,27 @@ export default class App extends Component {
   render() {
     const { isNewsSelected } = this.state;
 
-    const { article } = this.state;
-    return (
-      <View style={styles.container}>
-        {isNewsSelected && (
+    if (isNewsSelected) {
+      const { article } = this.state;
+
+      return (
+        <View style={styles.container}>
           <NewsDetails
             article={article}
             onDetailsClose={this.handleDetailsClose}
           />
-        )}
-        {!isNewsSelected && (
-          <NewsList onNewsSelected={this.handleNewsSelected} />
-        )}
+        </View>
+      );
+    }
+
+    const { articles } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <NewsList
+          articles={articles}
+          onNewsSelected={this.handleNewsSelected}
+        />
       </View>
     );
   }

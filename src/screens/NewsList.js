@@ -6,11 +6,13 @@ import { NewsListHeader, NewsListBody } from '../components';
 export default class NewsList extends Component {
   constructor(props) {
     super(props);
+    const { articles: art } = props;
 
     this.state = {
       isRefreshing: false,
-      articles: [],
+      articles: art,
       page: 0,
+      hasArticles: art.length > 0,
     };
 
     this.refresh = this.refresh.bind(this);
@@ -18,6 +20,7 @@ export default class NewsList extends Component {
     this.stopLoading = this.stopLoading.bind(this);
     this.handleCategoriesPress = this.handleCategoriesPress.bind(this);
     this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
+    this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.loadMore = this.loadMore.bind(this);
   }
 
@@ -31,6 +34,12 @@ export default class NewsList extends Component {
       console.log('prevented refreshing');
       return;
     }
+    const { hasArticles } = this.state;
+    if (hasArticles) {
+      this.setState({ hasArticles: false });
+      return;
+    }
+
     this.startLoading();
     console.log('refreshing');
 
@@ -87,9 +96,14 @@ export default class NewsList extends Component {
 
   handleFavoritesPress() {}
 
+  handleNewsPressed(article) {
+    const { onNewsSelected } = this.props;
+    const { articles } = this.state;
+    onNewsSelected(article, articles);
+  }
+
   render() {
     const { articles, isRefreshing } = this.state;
-    const { onNewsSelected } = this.props;
     return (
       <View style={styles.container}>
         <NewsListHeader
@@ -104,7 +118,7 @@ export default class NewsList extends Component {
           onRefresh={this.refresh}
           onLoadMore={this.loadMore}
           isRefreshing={isRefreshing}
-          onNewsPressed={onNewsSelected}
+          onNewsPressed={this.handleNewsPressed}
         />
       </View>
     );

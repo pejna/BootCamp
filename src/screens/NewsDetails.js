@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { NewsDetailsBody, NewsDetailsHeader } from '../components/NewsDetails';
@@ -19,13 +19,22 @@ export default class NewsDetails extends Component {
     const { article } = this.props;
 
     return (
-      <View>
-        <NewsDetailsHeader onBackPress={this.handleDetailsClose} />
-        <NewsDetailsBody article={article} />
+      <View style={styles.container}>
+        <NewsDetailsHeader
+          style={styles.header}
+          onBackPress={this.handleDetailsClose}
+        />
+        <NewsDetailsBody style={styles.body} article={article} />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  header: {},
+  body: { flex: 1 },
+});
 
 NewsDetails.propTypes = {
   onDetailsClose: PropTypes.func.isRequired,

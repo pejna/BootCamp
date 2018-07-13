@@ -8,7 +8,7 @@ export default function newsListHeader({ onBackPress }) {
         style={styles.buttonBack}
         onPress={onBackPress}
         title="Back"
-        color="#FFFFFF"
+        color="#000000"
       />
     </View>
   );
@@ -16,8 +16,8 @@ export default function newsListHeader({ onBackPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
+    backgroundColor: '#ff9966',
   },
   buttonBack: { flex: 1 },
 });

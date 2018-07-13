@@ -1,32 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
+import _ from 'lodash';
 
 export default class NewsDetailsBody extends Component {
   render() {
-    const { article } = this.props;
+    const { article, style } = this.props;
     const { headline, source, snippet, pub_date: pubDate, keywords } = article;
     const hasKeywords = keywords.length > 0;
     const date = moment(pubDate).format('MMMM Do YY');
-    const refreshing = true;
 
     return (
-      <View>
-        <Text>{headline.main}</Text>
-        <Text>{snippet}</Text>
-        <Text>{source}</Text>
-        <Text>{date}</Text>
+      <View style={(style, styles.container)}>
+        <Text style={styles.headline}>{headline.main}</Text>
+        <View style={styles.containerSourceDate}>
+          <Text style={styles.source}>{source}</Text>
+          <Text style={styles.date}>{date}</Text>
+        </View>
+        <Text style={styles.snippet}>{snippet}</Text>
+
         {hasKeywords && (
-          <FlatList
-            refreshing={refreshing}
-            data={keywords}
-            keyExtractor={item => item.rank}
-            renderItem={({ item }) => (
-              <View>
-                <Text style={styles.keywordText}>{item.value}</Text>
-              </View>
-            )}
-          />
+          <Text style={styles.keywordListContainer}>
+            {_.map(keywords, keyword => (
+              <TouchableOpacity
+                key={keyword.value}
+                style={styles.keywordContainer}
+              >
+                <Text style={styles.keywordText}>{keyword.value}</Text>
+              </TouchableOpacity>
+            ))}
+          </Text>
         )}
       </View>
     );
@@ -34,12 +37,49 @@ export default class NewsDetailsBody extends Component {
 }
 
 const styles = StyleSheet.create({
-  keywordContainer: {
-    borderWidth: 1,
-    backgroundColor: '#FFEAD9',
+  container: {
+    backgroundColor: '#FCFCFE',
+    flex: 1,
+    margin: 5,
+  },
+  containerSourceDate: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignContent: 'flex-start',
+  },
+  headline: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    padding: 10,
+  },
+  snippet: {
     flex: 1,
   },
-  keywordText: {
+  source: {
+    color: '#995555',
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    marginLeft: 5,
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  date: {
+    fontStyle: 'italic',
+    color: '#666666',
+    fontSize: 12,
+    margin: 5,
+  },
+  keywordListContainer: {
+    flexWrap: 'wrap',
     flex: 1,
+  },
+  keywordContainer: {
+    backgroundColor: '#FFEADA',
+    borderWidth: 3,
+    borderColor: '#FCFCFE',
+  },
+  keywordText: {
+    margin: 1,
+    padding: 2,
   },
 });
