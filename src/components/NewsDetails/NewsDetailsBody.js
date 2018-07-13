@@ -18,18 +18,24 @@ export default class NewsDetailsBody extends Component {
           <Text style={styles.date}>{date}</Text>
         </View>
         <Text style={styles.snippet}>{snippet}</Text>
+        <TouchableOpacity style={styles.containerMore}>
+          <Text style={styles.textMore}>Find out more...</Text>
+        </TouchableOpacity>
 
         {hasKeywords && (
-          <Text style={styles.keywordListContainer}>
-            {_.map(keywords, keyword => (
-              <TouchableOpacity
-                key={keyword.value}
-                style={styles.keywordContainer}
-              >
-                <Text style={styles.keywordText}>{keyword.value}</Text>
-              </TouchableOpacity>
-            ))}
-          </Text>
+          <View>
+            <Text style={styles.keywordLabel}>Keywords: </Text>
+            <Text style={styles.keywordListContainer}>
+              {_.map(keywords, keyword => (
+                <TouchableOpacity
+                  key={keyword.value}
+                  style={styles.keywordContainer}
+                >
+                  <Text style={styles.keywordText}>{keyword.value}</Text>
+                </TouchableOpacity>
+              ))}
+            </Text>
+          </View>
         )}
       </View>
     );
@@ -52,9 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
   },
-  snippet: {
-    flex: 1,
-  },
+  snippet: {},
   source: {
     color: '#995555',
     fontWeight: 'bold',
@@ -69,9 +73,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     margin: 5,
   },
+  keywordLabel: {},
   keywordListContainer: {
     flexWrap: 'wrap',
-    flex: 1,
   },
   keywordContainer: {
     backgroundColor: '#FFEADA',
@@ -80,6 +84,13 @@ const styles = StyleSheet.create({
   },
   keywordText: {
     margin: 1,
+    padding: 2,
+  },
+  containerMore: {
+    padding: 2,
+  },
+  textMore: {
+    color: '#00F',
     padding: 2,
   },
 });

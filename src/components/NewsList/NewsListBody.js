@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View, Text } from 'react-native';
 import NewsListItem from './NewsListItem';
 
 function EmptyListComponent({ show, style }) {
-  if (show) {
+  if (!show) {
     return <View />;
   }
   return (
@@ -34,6 +34,7 @@ export default class NewsListBody extends Component {
     const { isListScrolled } = this.state;
 
     if (isListScrolled) {
+      this.handleEndReached();
       return;
     }
 
