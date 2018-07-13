@@ -26,15 +26,14 @@ export default class NewsListBody extends Component {
     };
 
     this.handleEndReached = this.handleEndReached.bind(this);
-    this.handleScrollEndDrag = this.handleScrollEndDrag.bind(this);
+    this.handleScrollBeginDrag = this.handleScrollBeginDrag.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
   }
 
-  handleScrollEndDrag() {
+  handleScrollBeginDrag() {
     const { isListScrolled } = this.state;
 
     if (isListScrolled) {
-      this.handleEndReached();
       return;
     }
 
@@ -52,8 +51,7 @@ export default class NewsListBody extends Component {
 
     if (isListScrolled) {
       const { onLoadMore } = this.props;
-      const loaded = onLoadMore();
-      this.setState({ isListScrolled: !loaded });
+      onLoadMore();
     }
   }
 
@@ -77,7 +75,7 @@ export default class NewsListBody extends Component {
         ItemSeparatorComponent={Separator}
         onEndReached={this.handleEndReached}
         onEndReachedThreshold={0.5}
-        onScrollEndDrag={this.handleScrollEndDrag}
+        onScrollBeginDrag={this.handleScrollBeginDrag}
       />
     );
   }
