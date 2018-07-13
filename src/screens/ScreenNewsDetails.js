@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { NewsDetailsBody, NewsDetailsHeader } from '../components/NewsDetails';
+import { NewsDetailsBody, NewsDetailsHeader } from '../components';
 
 export default class ScreenNewsDetails extends Component {
   constructor(props) {

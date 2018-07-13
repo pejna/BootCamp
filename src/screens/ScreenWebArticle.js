@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { WebView, View, StyleSheet } from 'react-native';
-import { WebArticleHeader } from '../components/WebArticle';
+import { WebArticleHeader } from '../components';
 
 export default class ScreenWebArticle extends Component {
   render() {
