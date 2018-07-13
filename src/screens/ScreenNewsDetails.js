@@ -15,7 +15,7 @@ export default class ScreenNewsDetails extends Component {
   }
 
   render() {
-    const { article } = this.props;
+    const { article, onOpenWebArticle } = this.props;
 
     return (
       <View style={styles.container}>
@@ -23,7 +23,11 @@ export default class ScreenNewsDetails extends Component {
           style={styles.header}
           onBackPress={this.handleDetailsClose}
         />
-        <NewsDetailsBody style={styles.body} article={article} />
+        <NewsDetailsBody
+          onOpenWebArticle={onOpenWebArticle}
+          style={styles.body}
+          article={article}
+        />
       </View>
     );
   }

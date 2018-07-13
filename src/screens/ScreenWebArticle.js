@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import WebView from 'react-native';
+import { WebView, View } from 'react-native';
+import { WebArticleHeader } from '../components/WebArticle';
 
 export default class ScreenWebArticle extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    return <WebView />;
+    const { url, onBackPress } = this.props;
+
+    return (
+      <View>
+        <WebArticleHeader onBackPress={onBackPress} />
+        <WebView source={{ uri: `${url}` }} />
+      </View>
+    );
   }
 }

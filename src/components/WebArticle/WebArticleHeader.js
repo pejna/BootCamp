@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
-export default function NewsDetailsHeader({ onBackPress }) {
+export default function WebArticleHeader({ onBackPress }) {
   return (
     <View style={styles.container}>
       <Button

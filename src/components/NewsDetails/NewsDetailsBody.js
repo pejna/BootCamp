@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 export default class NewsDetailsBody extends Component {
   render() {
-    const { article, style } = this.props;
+    const { article, style, onOpenWebArticle } = this.props;
     const { headline, source, snippet, pub_date: pubDate, keywords } = article;
     const hasKeywords = keywords.length > 0;
     const date = moment(pubDate).format('MMMM Do YY');
@@ -18,7 +18,10 @@ export default class NewsDetailsBody extends Component {
           <Text style={styles.date}>{date}</Text>
         </View>
         <Text style={styles.snippet}>{snippet}</Text>
-        <TouchableOpacity style={styles.containerMore}>
+        <TouchableOpacity
+          onPress={onOpenWebArticle}
+          style={styles.containerMore}
+        >
           <Text style={styles.textMore}>Find out more...</Text>
         </TouchableOpacity>
 
