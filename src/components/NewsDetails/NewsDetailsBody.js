@@ -73,7 +73,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     margin: 5,
   },
-  keywordLabel: {},
+  keywordLabel: {
+    margin: 2,
+  },
   keywordListContainer: {
     flexWrap: 'wrap',
   },

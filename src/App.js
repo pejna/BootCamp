@@ -57,9 +57,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 20 : 0,
     backgroundColor: '#ff9966',
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   loadingIndicator: {
     alignSelf: 'center',
