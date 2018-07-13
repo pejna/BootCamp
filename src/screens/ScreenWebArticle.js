@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { WebView, View } from 'react-native';
+import { WebView, View, StyleSheet } from 'react-native';
 import { WebArticleHeader } from '../components/WebArticle';
 
 export default class ScreenWebArticle extends Component {
@@ -7,10 +7,17 @@ export default class ScreenWebArticle extends Component {
     const { url, onBackPress } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <WebArticleHeader onBackPress={onBackPress} />
-        <WebView source={{ uri: `${url}` }} />
+        <WebView style={styles.webView} source={{ uri: `${url}` }} />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  webView: {
+    flex: 1,
+  },
+});
