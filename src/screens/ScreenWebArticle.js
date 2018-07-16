@@ -3,12 +3,18 @@ import { WebView, View, StyleSheet } from 'react-native';
 import { WebArticleHeader } from '../components';
 
 export default class ScreenWebArticle extends Component {
-  render() {
-    const { url, onBackPress } = this.props;
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
 
+    thi.state = { article: navigation.state.params.article };
+  }
+
+  render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <WebArticleHeader onBackPress={onBackPress} />
+        <WebArticleHeader onBackPress={navigation.goBack()} />
         <WebView style={styles.webView} source={{ uri: `${url}` }} />
       </View>
     );

@@ -4,9 +4,17 @@ import PropTypes from 'prop-types';
 import { NewsDetailsBody, NewsDetailsHeader } from '../components';
 
 export default class ScreenNewsDetails extends Component {
+  static navigationOptions = {
+    headerTitle: <NewsDetailsHeader />,
+  };
+
   constructor(props) {
     super(props);
+
+    this.state = { article: props.navigation.state.params.article };
+
     this.handleDetailsClose = this.handleDetailsClose.bind(this);
+    this.handleOpenWebArticle = this.handleOpenWebArticle.bind(this);
   }
 
   handleDetailsClose() {
@@ -14,17 +22,25 @@ export default class ScreenNewsDetails extends Component {
     onDetailsClose();
   }
 
+  handleOpenWebArticle() {
+    const { navigation } = this.props;
+    const { article: art } = this.state;
+
+    navigation.navigate('WebArticle', { article: art });
+  }
+
   render() {
-    const { article, onOpenWebArticle } = this.props;
+    const { article } = this.state;
+    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
         <NewsDetailsHeader
           style={styles.header}
-          onBackPress={this.handleDetailsClose}
+          onBackPress={navigation.goBack()}
         />
         <NewsDetailsBody
-          onOpenWebArticle={onOpenWebArticle}
+          onOpenWebArticle={this.handleOpenWebArticle}
           style={styles.body}
           article={article}
         />

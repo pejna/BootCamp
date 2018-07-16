@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import { ScreenNewsDetails, ScreenNewsList, ScreenWebArticle } from './screens';
 
-export default class App extends Component {
+export class App1 {
   constructor(props) {
     super(props);
 
@@ -84,13 +85,30 @@ export default class App extends Component {
         <View style={styles.container}>
           <ScreenWebArticle
             onBackPress={this.handleWebArticleClose}
-            url={article.web_url}
+            article={article}
           />
         </View>
       );
     }
   }
 }
+
+export default class App extends Component {
+  render() {
+    return <RootStack />;
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    NewsList: ScreenNewsList,
+    NewsDetails: ScreenNewsDetails,
+    WebArticle: ScreenWebArticle,
+  },
+  {
+    initialRouteName: 'NewsList',
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

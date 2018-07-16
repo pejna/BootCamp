@@ -97,9 +97,9 @@ export default class ScreenNewsList extends Component {
   handleFavoritesPress() {}
 
   handleNewsPressed(article) {
-    const { onNewsSelected } = this.props;
-    const { articles } = this.state;
-    onNewsSelected(article, articles);
+    const { navigation } = this.props;
+
+    navigation.push('NewsDetails', { article });
   }
 
   render() {
