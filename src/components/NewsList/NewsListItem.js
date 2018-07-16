@@ -19,7 +19,7 @@ class NewsListItem extends Component {
 
     return (
       <TouchableOpacity
-        style={(style, styles.container)}
+        style={(styles.container, style)}
         onPress={this.handleItemPress}
       >
         <View style={styles.headlineView}>
