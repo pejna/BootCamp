@@ -11,6 +11,5 @@ export default async function fetchNews(page = 0) {
   } catch (error) {
     console.error(error);
     return [];
-    // intentionally empty
   }
 }
