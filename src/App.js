@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { ScreenNewsDetails, ScreenNewsList, ScreenWebArticle } from './screens';
+import { NewsListScreen, NewsDetailsScreen, WebArticleScreen } from './screens';
 
 export default class App extends Component {
   render() {
@@ -11,9 +11,9 @@ export default class App extends Component {
 
 const RootStack = createStackNavigator(
   {
-    NewsList: ScreenNewsList,
-    NewsDetails: ScreenNewsDetails,
-    WebArticle: ScreenWebArticle,
+    NewsList: NewsListScreen,
+    NewsDetails: NewsDetailsScreen,
+    WebArticle: WebArticleScreen,
   },
   {
     initialRouteName: 'NewsList',

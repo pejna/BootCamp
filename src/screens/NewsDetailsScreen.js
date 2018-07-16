@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import { NewsDetailsBody, NewsDetailsHeader } from '../components';
+import { NewsDetailsBody } from '../components';
 
-export default class ScreenNewsDetails extends Component {
-  static navigationOptions = {
-    headerTitle: <NewsDetailsHeader />,
-  };
-
+export default class NewsDetailsScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { article: props.navigation.state.params.article };
-
     this.handleDetailsClose = this.handleDetailsClose.bind(this);
     this.handleOpenWebArticle = this.handleOpenWebArticle.bind(this);
+
+    const { article } = props.navigation.state.params;
+    console.log(article);
+    this.state = { article };
   }
 
   handleDetailsClose() {
@@ -24,18 +21,16 @@ export default class ScreenNewsDetails extends Component {
 
   handleOpenWebArticle() {
     const { navigation } = this.props;
-    const { article: art } = this.state;
+    const { article } = this.state;
 
-    navigation.navigate('WebArticle', { article: art });
+    navigation.navigate('WebArticle', { url: article.web_url });
   }
 
   render() {
     const { article } = this.state;
-    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
-        <NewsDetailsHeader onBackPress={navigation.goBack()} />
         <NewsDetailsBody
           onOpenWebArticle={this.handleOpenWebArticle}
           style={styles.body}
@@ -50,7 +45,3 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   body: { flex: 1 },
 });
-
-ScreenNewsDetails.propTypes = {
-  onDetailsClose: PropTypes.func.isRequired,
-};

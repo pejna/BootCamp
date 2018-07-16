@@ -2,21 +2,19 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { _ } from 'lodash';
 import { fetchNews } from '../api';
-import { NewsListHeader, NewsListBody } from '../components';
+import { NewsListBody } from '../components';
 
-export default class ScreenNewsList extends Component {
+export default class NewsListScreen extends Component {
   constructor(props) {
     super(props);
 
     this.refresh = this.refresh.bind(this);
     this.startLoading = this.startLoading.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
-    this.handleCategoriesPress = this.handleCategoriesPress.bind(this);
-    this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
-    const { articles } = props;
+    const articles = [];
 
     this.state = {
       isRefreshing: false,
@@ -96,10 +94,6 @@ export default class ScreenNewsList extends Component {
     });
   }
 
-  handleCategoriesPress() {}
-
-  handleFavoritesPress() {}
-
   handleNewsPressed(article) {
     const { navigation } = this.props;
 
@@ -110,11 +104,6 @@ export default class ScreenNewsList extends Component {
     const { articles, isRefreshing } = this.state;
     return (
       <View style={styles.container}>
-        <NewsListHeader
-          style={styles.header}
-          onCategoriesPress={this.handleCategoriesPress}
-          onFavoritesPress={this.handleFavoritesPress}
-        />
         <NewsListBody
           style={styles.body}
           articles={articles}
