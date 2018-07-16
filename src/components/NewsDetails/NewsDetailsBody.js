@@ -3,11 +3,31 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
+function KeywordList({ keywords }) {
+  const hasKeywords = keywords.length > 0;
+
+  if (!hasKeywords) {
+    return <View />;
+  }
+
+  return (
+    <View>
+      <Text style={styles.keywordLabel}>Keywords: </Text>
+      <Text style={styles.keywordListContainer}>
+        {_.map(keywords, keyword => (
+          <TouchableOpacity key={keyword.value} style={styles.keywordContainer}>
+            <Text style={styles.keywordText}>{keyword.value}</Text>
+          </TouchableOpacity>
+        ))}
+      </Text>
+    </View>
+  );
+}
+
 export default class NewsDetailsBody extends Component {
   render() {
     const { article, style, onOpenWebArticle } = this.props;
     const { headline, source, snippet, pub_date: pubDate, keywords } = article;
-    const hasKeywords = keywords.length > 0;
     const date = moment(pubDate).format('MMMM Do YY');
 
     return (
@@ -24,22 +44,7 @@ export default class NewsDetailsBody extends Component {
         >
           <Text style={styles.textMore}>Find out more...</Text>
         </TouchableOpacity>
-
-        {hasKeywords && (
-          <View>
-            <Text style={styles.keywordLabel}>Keywords: </Text>
-            <Text style={styles.keywordListContainer}>
-              {_.map(keywords, keyword => (
-                <TouchableOpacity
-                  key={keyword.value}
-                  style={styles.keywordContainer}
-                >
-                  <Text style={styles.keywordText}>{keyword.value}</Text>
-                </TouchableOpacity>
-              ))}
-            </Text>
-          </View>
-        )}
+        <KeywordList keywords={keywords} />
       </View>
     );
   }
