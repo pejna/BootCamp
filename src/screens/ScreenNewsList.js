@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { _ } from 'lodash';
 import { fetchNews } from '../api';
 import { NewsListHeader, NewsListBody } from '../components';
 
@@ -15,13 +16,13 @@ export default class ScreenNewsList extends Component {
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
-    const { articles: art } = props;
+    const { articles } = props;
 
     this.state = {
       isRefreshing: false,
-      articles: art,
+      articles,
       page: 0,
-      hasArticles: art.length > 0,
+      hasArticles: !_.isEmpty(articles),
     };
   }
 
@@ -66,13 +67,16 @@ export default class ScreenNewsList extends Component {
 
     this.startLoading();
 
-    let { page } = this.state;
+    const { page } = this.state;
     const { articles } = this.state;
-    page += 1;
 
     try {
-      const newArticles = await fetchNews(page);
-      this.setState({ articles: [...articles, ...newArticles], page });
+      const nextPage = page + 1;
+      const newArticles = await fetchNews(nextPage);
+      this.setState({
+        articles: [...articles, ...newArticles],
+        page: nextPage,
+      });
     } catch (e) {
       console.error(e);
     }
