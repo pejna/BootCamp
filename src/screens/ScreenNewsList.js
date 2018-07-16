@@ -6,14 +6,6 @@ import { NewsListHeader, NewsListBody } from '../components';
 export default class ScreenNewsList extends Component {
   constructor(props) {
     super(props);
-    const { articles: art } = props;
-
-    this.state = {
-      isRefreshing: false,
-      articles: art,
-      page: 0,
-      hasArticles: art.length > 0,
-    };
 
     this.refresh = this.refresh.bind(this);
     this.startLoading = this.startLoading.bind(this);
@@ -22,6 +14,15 @@ export default class ScreenNewsList extends Component {
     this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.loadMore = this.loadMore.bind(this);
+
+    const { articles: art } = props;
+
+    this.state = {
+      isRefreshing: false,
+      articles: art,
+      page: 0,
+      hasArticles: art.length > 0,
+    };
   }
 
   componentDidMount() {
@@ -30,18 +31,19 @@ export default class ScreenNewsList extends Component {
 
   async refresh() {
     const { isRefreshing } = this.state;
+
     if (isRefreshing) {
-      console.log('prevented refreshing');
       return;
     }
+
     const { hasArticles } = this.state;
+
     if (hasArticles) {
       this.setState({ hasArticles: false });
       return;
     }
 
     this.startLoading();
-    console.log('refreshing');
 
     const page = 0;
 
@@ -49,7 +51,7 @@ export default class ScreenNewsList extends Component {
       const articles = await fetchNews(page);
       this.setState({ articles, page });
     } catch (e) {
-      // intentionally empty
+      console.error(e);
     }
 
     this.stopLoading();
@@ -57,22 +59,22 @@ export default class ScreenNewsList extends Component {
 
   async loadMore() {
     const { isRefreshing } = this.state;
+
     if (isRefreshing) {
-      console.log('prevented loading more');
       return;
     }
+
     this.startLoading();
 
     let { page } = this.state;
     const { articles } = this.state;
     page += 1;
-    console.log(`loading more at ${page + 1}`);
 
     try {
       const newArticles = await fetchNews(page);
       this.setState({ articles: [...articles, ...newArticles], page });
     } catch (e) {
-      // intentionally empty
+      console.error(e);
     }
 
     this.stopLoading();
@@ -82,14 +84,12 @@ export default class ScreenNewsList extends Component {
     this.setState({
       isRefreshing: true,
     });
-    console.log('start loading');
   }
 
   stopLoading() {
     this.setState({
       isRefreshing: false,
     });
-    console.log('stop loading');
   }
 
   handleCategoriesPress() {}
@@ -111,7 +111,6 @@ export default class ScreenNewsList extends Component {
           onCategoriesPress={this.handleCategoriesPress}
           onFavoritesPress={this.handleFavoritesPress}
         />
-
         <NewsListBody
           style={styles.body}
           articles={articles}
