@@ -19,10 +19,7 @@ export default class ScreenNewsDetails extends Component {
 
     return (
       <View style={styles.container}>
-        <NewsDetailsHeader
-          style={styles.header}
-          onBackPress={this.handleDetailsClose}
-        />
+        <NewsDetailsHeader onBackPress={this.handleDetailsClose} />
         <NewsDetailsBody
           onOpenWebArticle={onOpenWebArticle}
           style={styles.body}
@@ -35,7 +32,6 @@ export default class ScreenNewsDetails extends Component {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: {},
   body: { flex: 1 },
 });
 
