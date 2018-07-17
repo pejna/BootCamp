@@ -11,7 +11,7 @@ export default class NewsDetailsScreen extends Component {
     super(props);
 
     this.handleDetailsClose = this.handleDetailsClose.bind(this);
-    this.handleOpenWebArticle = this.handleOpenWebArticle.bind(this);
+    this.handleWebArticleOpen = this.handleWebArticleOpen.bind(this);
 
     const { article } = props.navigation.state.params;
     this.state = { article };
@@ -22,11 +22,13 @@ export default class NewsDetailsScreen extends Component {
     onDetailsClose();
   }
 
-  handleOpenWebArticle() {
+  handleWebArticleOpen() {
     const { navigation } = this.props;
-    const { article } = this.state;
+    const {
+      article: { web_url: url },
+    } = this.state;
 
-    navigation.navigate('WebArticle', { url: article.web_url });
+    navigation.navigate('WebArticle', { url });
   }
 
   render() {
@@ -35,7 +37,7 @@ export default class NewsDetailsScreen extends Component {
     return (
       <View style={styles.container}>
         <NewsDetailsBody
-          onOpenWebArticle={this.handleOpenWebArticle}
+          onWebArticleOpen={this.handleWebArticleOpen}
           style={styles.body}
           article={article}
         />

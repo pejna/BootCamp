@@ -26,7 +26,7 @@ function KeywordList({ keywords }) {
 
 export default class NewsDetailsBody extends Component {
   render() {
-    const { article, style, onOpenWebArticle } = this.props;
+    const { article, style, onWebArticleOpen } = this.props;
     const { headline, source, snippet, pub_date: pubDate, keywords } = article;
     const date = moment(pubDate).format('MMMM Do YY');
 
@@ -39,7 +39,7 @@ export default class NewsDetailsBody extends Component {
         </View>
         <Text style={styles.snippet}>{snippet}</Text>
         <TouchableOpacity
-          onPress={onOpenWebArticle}
+          onPress={onWebArticleOpen}
           style={styles.containerMore}
         >
           <Text style={styles.textMore}>Find out more...</Text>
