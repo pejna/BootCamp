@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { NewsListScreen, NewsDetailsScreen, WebArticleScreen } from './screens';
+import {
+  NewsListScreen,
+  NewsDetailsScreen,
+  WebArticleScreen,
+  PlaceholderModalScreen,
+} from './screens';
 
 export default class App extends Component {
   render() {
@@ -9,7 +13,7 @@ export default class App extends Component {
   }
 }
 
-const RootStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     NewsList: NewsListScreen,
     NewsDetails: NewsDetailsScreen,
@@ -17,16 +21,24 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'NewsList',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#ff9966',
+      },
+      headerTintColor: '#FFFFFF',
+    },
   }
 );
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
-    backgroundColor: '#ff9966',
-    flex: 1,
+const RootStack = createStackNavigator(
+  {
+    Main: MainStack,
+    CategoriesModal: PlaceholderModalScreen,
+    FavoritesModal: PlaceholderModalScreen,
   },
-  loadingIndicator: {
-    alignSelf: 'center',
-  },
-});
+  {
+    initialRouteName: 'Main',
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);

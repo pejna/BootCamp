@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Button } from 'react-native';
 import { _ } from 'lodash';
 import { fetchNews } from '../api';
 import { NewsListBody } from '../components';
 
+function options({ navigation }) {
+  return {
+    title: 'News',
+    headerLeft: (
+      <View style={styles.headerContainer}>
+        <Button
+          title="Categories"
+          onPress={() => navigation.push('CategoriesModal')}
+        />
+        <Button
+          title="Favorites"
+          onPress={() => navigation.navigate('FavoritesModal')}
+        />
+      </View>
+    ),
+  };
+}
+
 export default class NewsListScreen extends Component {
+  static navigationOptions = options;
+
   constructor(props) {
     super(props);
 
@@ -132,5 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 10,
+  },
+  headerContainer: {
+    flexDirection: 'row',
   },
 });

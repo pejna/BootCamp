@@ -3,6 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import { NewsDetailsBody } from '../components';
 
 export default class NewsDetailsScreen extends Component {
+  static navigationOptions = {
+    title: 'Details',
+  };
+
   constructor(props) {
     super(props);
 
@@ -10,7 +14,6 @@ export default class NewsDetailsScreen extends Component {
     this.handleOpenWebArticle = this.handleOpenWebArticle.bind(this);
 
     const { article } = props.navigation.state.params;
-    console.log(article);
     this.state = { article };
   }
 
@@ -44,4 +47,7 @@ export default class NewsDetailsScreen extends Component {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   body: { flex: 1 },
+  headerButtonsContainer: {
+    flexDirection: 'row',
+  },
 });

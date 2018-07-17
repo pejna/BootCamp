@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import { WebView, View, StyleSheet } from 'react-native';
 
 export default class WebArticleScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { url } = navigation.state.params;
+    return {
+      title: url,
+    };
+  };
+
   constructor(props) {
     super(props);
     const { navigation } = this.props;
