@@ -9,15 +9,9 @@ export default class WebArticleScreen extends Component {
     };
   };
 
-  constructor(props) {
-    super(props);
-    const { navigation } = this.props;
-
-    this.state = { url: navigation.state.params.url };
-  }
-
   render() {
-    const { url } = this.state;
+    const { navigation } = this.props;
+    const { url } = navigation.state.params;
     return (
       <View style={styles.container}>
         <WebView style={styles.webView} source={{ uri: `${url}` }} />
