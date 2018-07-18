@@ -9,8 +9,11 @@ class NewsListItem extends Component {
   }
 
   handleItemPress() {
-    const { newsItem, onPress } = this.props;
-    onPress(newsItem);
+    const {
+      newsItem: { web_url: url },
+      onPress,
+    } = this.props;
+    onPress(url);
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NewsDetailsBody } from '../components';
+import { selectArticle } from '../selectors';
 
 export default class NewsDetailsScreen extends Component {
   static navigationOptions = {
@@ -10,29 +11,19 @@ export default class NewsDetailsScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.handleDetailsClose = this.handleDetailsClose.bind(this);
     this.handleWebArticleOpen = this.handleWebArticleOpen.bind(this);
-
-    const { article } = props.navigation.state.params;
-    this.state = { article };
-  }
-
-  handleDetailsClose() {
-    const { onDetailsClose } = this.props;
-    onDetailsClose();
   }
 
   handleWebArticleOpen() {
     const { navigation } = this.props;
-    const {
-      article: { web_url: url },
-    } = this.state;
+    const { url } = navigation.state.params;
 
     navigation.navigate('WebArticle', { url });
   }
 
   render() {
-    const { article } = this.state;
+    const { navigation } = this.props;
+    const article = selectArticle(navigation.state.params.url);
 
     return (
       <View style={styles.container}>

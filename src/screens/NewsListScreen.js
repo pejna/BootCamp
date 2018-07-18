@@ -102,22 +102,24 @@ export default class NewsListScreen extends Component {
     this.stopLoading();
   }
 
+  // transform to dispatch
   startLoading() {
     this.setState({
       isRefreshing: true,
     });
   }
 
+  // transform to dispatch
   stopLoading() {
     this.setState({
       isRefreshing: false,
     });
   }
 
-  handleNewsPressed(article) {
+  handleNewsPressed(url) {
     const { navigation } = this.props;
 
-    navigation.push('NewsDetails', { article });
+    navigation.push('NewsDetails', { url });
   }
 
   render() {
