@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
-import { _ } from 'lodash';
+import { connect } from 'react-redux';
+import { setRefreshing } from '../actions';
 import { fetchNews } from '../api';
-import { NewsListBody } from '../components';
+import { NewsList } from '../components';
 
 function options({ navigation }) {
   return {
@@ -22,117 +23,30 @@ function options({ navigation }) {
   };
 }
 
-export default class NewsListScreen extends Component {
+class NewsListScreen extends Component {
   static navigationOptions = options;
 
-  constructor(props) {
-    super(props);
-
-    this.refresh = this.refresh.bind(this);
-    this.startLoading = this.startLoading.bind(this);
-    this.stopLoading = this.stopLoading.bind(this);
-    this.handleNewsPressed = this.handleNewsPressed.bind(this);
-    this.loadMore = this.loadMore.bind(this);
-
-    const articles = [];
-
-    this.state = {
-      isRefreshing: false,
-      articles,
-      page: 0,
-      hasArticles: !_.isEmpty(articles),
-    };
-  }
-
   componentDidMount() {
-    this.refresh();
-  }
-
-  async refresh() {
-    const { isRefreshing } = this.state;
-
-    if (isRefreshing) {
-      return;
-    }
-
-    const { hasArticles } = this.state;
-
-    if (hasArticles) {
-      this.setState({ hasArticles: false });
-      return;
-    }
-
-    this.startLoading();
-
-    const page = 0;
-
-    try {
-      const articles = await fetchNews(page);
-      this.setState({ articles, page });
-    } catch (e) {
-      console.error(e);
-    }
-
-    this.stopLoading();
-  }
-
-  async loadMore() {
-    const { isRefreshing } = this.state;
-
-    if (isRefreshing) {
-      return;
-    }
-
-    this.startLoading();
-
-    const { page } = this.state;
-    const { articles } = this.state;
-
-    try {
-      const nextPage = page + 1;
-      const newArticles = await fetchNews(nextPage);
-      this.setState({
-        articles: [...articles, ...newArticles],
-        page: nextPage,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-
-    this.stopLoading();
-  }
-
-  // transform to dispatch
-  startLoading() {
-    this.setState({
-      isRefreshing: true,
-    });
-  }
-
-  // transform to dispatch
-  stopLoading() {
-    this.setState({
-      isRefreshing: false,
-    });
-  }
-
-  handleNewsPressed(url) {
-    const { navigation } = this.props;
-
-    navigation.push('NewsDetails', { url });
+    // load more stuff
   }
 
   render() {
-    const { articles, isRefreshing } = this.state;
+    const { articles, isLoading, navigation } = this.props;
     return (
       <View style={styles.container}>
-        <NewsListBody
+        <NewsList
           style={styles.body}
           articles={articles}
-          onRefresh={this.refresh}
-          onLoadMore={this.loadMore}
-          isRefreshing={isRefreshing}
-          onNewsPressed={this.handleNewsPressed}
+          onRefresh={
+            // refresh stuff 
+          }
+          onLoadMore={
+            // some stuff
+          }
+          isLoading={isLoading}
+          onNewsPressed={url => {
+            navigation.push('NewsDetails', { url });
+          }}
         />
       </View>
     );
@@ -159,3 +73,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    isLoading: state.isLoading,
+    articles: state.articles,
+    page: state.page,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewsListScreen);

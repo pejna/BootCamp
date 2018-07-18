@@ -1,34 +1,25 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { NewsDetailsBody } from '../components';
+import { connect } from 'react-redux';
+import { NewsDetails } from '../components';
 import { selectArticle } from '../selectors';
 
-export default class NewsDetailsScreen extends Component {
+class NewsDetailsScreen extends Component {
   static navigationOptions = {
     title: 'Details',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleWebArticleOpen = this.handleWebArticleOpen.bind(this);
-  }
-
-  handleWebArticleOpen() {
-    const { navigation } = this.props;
-    const { url } = navigation.state.params;
-
-    navigation.navigate('WebArticle', { url });
-  }
-
   render() {
-    const { navigation } = this.props;
-    const article = selectArticle(navigation.state.params.url);
+    const { navigation, articles } = this.props;
+    const { url } = navigation.state.params;
+    const article = selectArticle(articles, url);
 
     return (
       <View style={styles.container}>
-        <NewsDetailsBody
-          onWebArticleOpen={this.handleWebArticleOpen}
+        <NewsDetails
+          onWebArticleOpen={() => {
+            navigation.navigate('WebArticle', { url });
+          }}
           style={styles.body}
           article={article}
         />
@@ -44,3 +35,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    articles: state.articles,
+  };
+};
+
+export default connect(mapStateToProps)(NewsDetailsScreen);

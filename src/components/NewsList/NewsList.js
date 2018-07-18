@@ -17,7 +17,7 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class NewsListBody extends Component {
+export default class NewsList extends Component {
   constructor(props) {
     super(props);
 
@@ -56,7 +56,7 @@ export default class NewsListBody extends Component {
   }
 
   render() {
-    const { isRefreshing, articles, style, onNewsPressed } = this.props;
+    const { isLoading, articles, style, onNewsPressed } = this.props;
     const showListEmpty = isRefreshing || articles.length === 0;
 
     return (
@@ -65,7 +65,7 @@ export default class NewsListBody extends Component {
         data={articles}
         keyExtractor={item => item.uri}
         onRefresh={this.handleRefresh}
-        refreshing={isRefreshing}
+        refreshing={isLoading}
         renderItem={({ item }) => (
           <NewsListItem newsItem={item} onPress={onNewsPressed} />
         )}

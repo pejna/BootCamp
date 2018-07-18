@@ -24,7 +24,7 @@ function KeywordList({ keywords }) {
   );
 }
 
-export default class NewsDetailsBody extends Component {
+export default class NewsDetails extends Component {
   render() {
     const { article, style, onWebArticleOpen } = this.props;
     const { headline, source, snippet, pub_date: pubDate, keywords } = article;

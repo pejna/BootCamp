@@ -11,7 +11,7 @@ function articles(state = [], action) {
   }
 }
 
-function refreshing(state = false, action) {
+function isLoading(state = false, action) {
   switch (action.type) {
     case ActionTypes.CHANGE_LOADING_STATE:
       return action.payload.refreshing;
@@ -20,7 +20,15 @@ function refreshing(state = false, action) {
   }
 }
 
+function page(state = 0, action) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+
 export const rootReducer = combineReducers({
   articles,
-  refreshing,
+  isLoading,
+  page,
 });
