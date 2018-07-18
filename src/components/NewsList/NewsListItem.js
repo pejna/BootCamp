@@ -1,40 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-import PropTypes from 'prop-types';
 
-class NewsListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.handleItemPress = this.handleItemPress.bind(this);
-  }
+export default function NewsListItem(newsItem, style, onPress) {
+  const { headline, source, snippet, web_url: url } = newsItem;
 
-  handleItemPress() {
-    const {
-      newsItem: { web_url: url },
-      onPress,
-    } = this.props;
-    onPress(url);
-  }
-
-  render() {
-    const { newsItem, style } = this.props;
-    const { headline, source, snippet } = newsItem;
-
-    return (
-      <TouchableOpacity
-        style={(styles.container, style)}
-        onPress={this.handleItemPress}
-      >
-        <View style={styles.headlineView}>
-          <Text style={styles.headlineText}>{headline.main}</Text>
-        </View>
-        <Text style={styles.snippetText}>{snippet}</Text>
-        <View style={styles.sourceView}>
-          <Text style={styles.sourceText}>{source}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity style={(styles.container, style)} onPress={onPress(url)}>
+      <View style={styles.headlineView}>
+        <Text style={styles.headlineText}>{headline.main}</Text>
+      </View>
+      <Text style={styles.snippetText}>{snippet}</Text>
+      <View style={styles.sourceView}>
+        <Text style={styles.sourceText}>{source}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -62,17 +42,3 @@ const styles = StyleSheet.create({
     color: '#995555',
   },
 });
-
-export default NewsListItem;
-
-NewsListItem.propTypes = {
-  newsItem: PropTypes.shape({
-    headline: PropTypes.shape({
-      main: PropTypes.string.isRequired,
-    }).isRequired,
-    source: PropTypes.string,
-    snipped: PropTypes.string,
-    _id: PropTypes.string,
-  }),
-  onPress: PropTypes.func,
-};
