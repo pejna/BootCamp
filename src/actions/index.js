@@ -1,6 +1,8 @@
 export {
   ActionTypes,
-  refreshArticles,
-  loadMoreArticles,
-  setRefreshing,
+  invalidateNews,
+  fetchNewsBegin,
+  fetchNewsError,
+  fetchNewsSuccess,
+  loadArticles,
 } from './actions';

@@ -1,38 +1,51 @@
-import { fetchNews } from "../api";
+import { fetchNews } from '../api';
 
 export const ActionTypes = {
-  REFRESH: 'REFRESH',
-  LOAD_MORE: 'LOAD_MORE',
-  CHANGE_LOADING_STATE: 'CHANGE_LOADING_STATE',
+  FETCH_NEWS_BEGIN: 'FETCH_NEWS_BEGIN',
+  FETCH_NEWS_SUCCESS: 'FETCH_NEWS_SUCCESS',
+  FETCH_NEWS_ERROR: 'FETCH_NEWS_ERROR',
+  INVALIDATE_NEWS: 'INVALIDATE',
 };
 
-export const refreshArticles = articles => ({
-  type: ActionTypes.REFRESH,
-  payload: { articles },
-});
-
-export const loadMoreArticles = articles => ({
-  type: ActionTypes.LOAD_MORE,
-  payload: { articles },
-});
-
-export const setRefreshing = refreshing => ({
-  type: ActionTypes.CHANGE_LOADING_STATE,
-  payload: { refreshing },
-});
-
-function loadArticles(page = 0) { 
-  return (dispatch, getState) => {
-      page = getState().page;
-     dispatch(REQUEST_FSAA)
-
-     return fetchNews().then(arti => dispatch(SUCESS_ACTION_FSSA)).catch(ERROR)
-
-     try
-    cosnt art =  await fetch;
-    SUCESS
-    catch ERROR
-  }
+export function invalidateNews() {
+  return {
+    type: ActionTypes.INVALIDATE_NEWS,
+  };
 }
 
-invalidateArticles()
+export function fetchNewsBegin() {
+  return {
+    type: ActionTypes.FETCH_NEWS_BEGIN,
+  };
+}
+
+export function fetchNewsSuccess(articles, page) {
+  return {
+    type: ActionTypes.FETCH_NEWS_SUCCESS,
+    payload: {
+      articles,
+      page,
+    },
+  };
+}
+
+export function fetchNewsError(error) {
+  return {
+    type: ActionTypes.FETCH_NEWS_ERROR,
+    payload: {
+      error,
+    },
+    error: true,
+  };
+}
+
+export function loadArticles() {
+  return (dispatch, getState) => {
+    const page = getState().valid ? getState().page + 1 : 0;
+    fetchNews(page)
+      .then(articles => {
+        dispatch(fetchNewsSuccess(articles, page));
+      })
+      .catch(error => dispatch(fetchNewsError(error)));
+  };
+}
