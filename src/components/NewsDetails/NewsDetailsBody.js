@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
@@ -24,30 +24,24 @@ function KeywordList({ keywords }) {
   );
 }
 
-export default class NewsDetails extends Component {
-  render() {
-    const { article, style, onWebArticleOpen } = this.props;
-    const { headline, source, snippet, pub_date: pubDate, keywords } = article;
-    const date = moment(pubDate).format('MMMM Do YY');
+export default function NewsDetails({ article, style, onWebArticleOpen }) {
+  const { headline, source, snippet, pub_date: pubDate, keywords } = article;
+  const date = moment(pubDate).format('MMMM Do YY');
 
-    return (
-      <View style={(style, styles.container)}>
-        <Text style={styles.headline}>{headline.main}</Text>
-        <View style={styles.containerSourceDate}>
-          <Text style={styles.source}>{source}</Text>
-          <Text style={styles.date}>{date}</Text>
-        </View>
-        <Text style={styles.snippet}>{snippet}</Text>
-        <TouchableOpacity
-          onPress={onWebArticleOpen}
-          style={styles.containerMore}
-        >
-          <Text style={styles.textMore}>Find out more...</Text>
-        </TouchableOpacity>
-        <KeywordList keywords={keywords} />
+  return (
+    <View style={(style, styles.container)}>
+      <Text style={styles.headline}>{headline.main}</Text>
+      <View style={styles.containerSourceDate}>
+        <Text style={styles.source}>{source}</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
-    );
-  }
+      <Text style={styles.snippet}>{snippet}</Text>
+      <TouchableOpacity onPress={onWebArticleOpen} style={styles.containerMore}>
+        <Text style={styles.textMore}>Find out more...</Text>
+      </TouchableOpacity>
+      <KeywordList keywords={keywords} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

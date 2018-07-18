@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-export default function NewsListItem(newsItem, style, onPress) {
+export default function NewsListItem({ newsItem, style, onPress }) {
   const { headline, source, snippet, web_url: url } = newsItem;
 
   return (
@@ -42,3 +43,15 @@ const styles = StyleSheet.create({
     color: '#995555',
   },
 });
+
+NewsListItem.propTypes = {
+  newsItem: PropTypes.shape({
+    headline: PropTypes.shape({
+      main: PropTypes.string.isRequired,
+    }).isRequired,
+    source: PropTypes.string,
+    snippet: PropTypes.string,
+    web_url: PropTypes.string,
+  }),
+  onPress: PropTypes.func,
+};
