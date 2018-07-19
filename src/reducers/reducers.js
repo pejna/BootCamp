@@ -45,6 +45,8 @@ function valid(state = initialState.valid, action) {
   switch (action.type) {
     case ActionTypes.INVALIDATE_NEWS:
       return false;
+    case ActionTypes.FETCH_NEWS_SUCCESS:
+      return true;
     default:
       return state;
   }

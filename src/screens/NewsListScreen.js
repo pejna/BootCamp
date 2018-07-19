@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { setRefreshing } from '../actions';
-import { fetchNews } from '../api';
 import { NewsList } from '../components';
+import { invalidateNews, loadArticles } from '../actions';
 
 function options({ navigation }) {
   return {
@@ -27,22 +26,25 @@ class NewsListScreen extends Component {
   static navigationOptions = options;
 
   componentDidMount() {
-    // load more stuff
+    const { onRefresh } = this.props;
+    onRefresh();
   }
 
   render() {
-    const { articles, isLoading, navigation } = this.props;
+    const {
+      articles,
+      isLoading,
+      navigation,
+      onRefresh,
+      onLoadMore,
+    } = this.props;
     return (
       <View style={styles.container}>
         <NewsList
           style={styles.body}
           articles={articles}
-          onRefresh={
-            // refresh stuff 
-          }
-          onLoadMore={
-            // some stuff
-          }
+          onRefresh={onRefresh}
+          onLoadMore={onLoadMore}
           isLoading={isLoading}
           onNewsPressed={url => {
             navigation.push('NewsDetails', { url });
@@ -82,8 +84,21 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    onRefresh: () => {
+      if (ownProps.isLoading) {
+        return;
+      }
+      dispatch(invalidateNews());
+      dispatch(loadArticles());
+    },
+    onLoadMore: () => {
+      if (ownProps.isLoading) {
+        return;
+      }
+      dispatch(loadArticles());
+    },
   };
 };
 

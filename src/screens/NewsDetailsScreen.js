@@ -12,7 +12,9 @@ class NewsDetailsScreen extends Component {
   render() {
     const { navigation, articles } = this.props;
     const { url } = navigation.state.params;
+    console.log(url);
     const article = selectArticle(articles, url);
+    console.log(article);
 
     return (
       <View style={styles.container}>

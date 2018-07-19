@@ -6,7 +6,12 @@ export default function NewsListItem({ newsItem, style, onPress }) {
   const { headline, source, snippet, web_url: url } = newsItem;
 
   return (
-    <TouchableOpacity style={(styles.container, style)} onPress={onPress(url)}>
+    <TouchableOpacity
+      style={(styles.container, style)}
+      onPress={() => {
+        onPress(url);
+      }}
+    >
       <View style={styles.headlineView}>
         <Text style={styles.headlineText}>{headline.main}</Text>
       </View>

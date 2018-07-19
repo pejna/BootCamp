@@ -57,7 +57,7 @@ export default class NewsList extends Component {
 
   render() {
     const { isLoading, articles, style, onNewsPressed } = this.props;
-    const showListEmpty = isRefreshing || articles.length === 0;
+    const showListEmpty = isLoading || articles.length === 0;
 
     return (
       <FlatList

@@ -41,11 +41,15 @@ export function fetchNewsError(error) {
 
 export function loadArticles() {
   return (dispatch, getState) => {
-    const page = getState().valid ? getState().page + 1 : 0;
-    fetchNews(page)
-      .then(articles => {
+    try {
+      dispatch(fetchNewsBegin());
+
+      const page = getState().valid ? getState().page + 1 : 0;
+      fetchNews(page).then(articles => {
         dispatch(fetchNewsSuccess(articles, page));
-      })
-      .catch(error => dispatch(fetchNewsError(error)));
+      });
+    } catch (error) {
+      dispatch(fetchNewsError(error));
+    }
   };
 }
