@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { RootNavigator } from './navigators';
-import { rootReducer } from './reducers';
+import { rootReducer } from '.';
 
-const middlewares = [ReduxThunk];
+const middlewares = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(logger);

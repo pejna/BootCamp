@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default function NewsListItem({ newsItem, style, onPress }) {
-  const { headline, source, snippet, web_url: url } = newsItem;
+export default class NewsListItem extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <TouchableOpacity
-      style={(styles.container, style)}
-      onPress={() => {
-        onPress(url);
-      }}
-    >
-      <View style={styles.headlineView}>
-        <Text style={styles.headlineText}>{headline.main}</Text>
-      </View>
-      <Text style={styles.snippetText}>{snippet}</Text>
-      <View style={styles.sourceView}>
-        <Text style={styles.sourceText}>{source}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+    this.handlePress = this.handlePress.bind(this);
+  }
+
+  handlePress() {
+    const { newsItem, onPress } = this.props;
+    const { web_url: url } = newsItem;
+
+    onPress(url);
+  }
+
+  render() {
+    const { newsItem, style } = this.props;
+    const { headline, source, snippet } = newsItem;
+
+    return (
+      <TouchableOpacity
+        style={(styles.container, style)}
+        onPress={this.handlePress}
+      >
+        <View style={styles.headlineView}>
+          <Text style={styles.headlineText}>{headline.main}</Text>
+        </View>
+        <Text style={styles.snippetText}>{snippet}</Text>
+        <View style={styles.sourceView}>
+          <Text style={styles.sourceText}>{source}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

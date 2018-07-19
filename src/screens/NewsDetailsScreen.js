@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NewsDetails } from '../components';
-import { selectArticle } from '../selectors';
+import { getArticle } from '../redux';
 
 class NewsDetailsScreen extends Component {
   static navigationOptions = {
@@ -10,9 +10,8 @@ class NewsDetailsScreen extends Component {
   };
 
   render() {
-    const { navigation, articles } = this.props;
+    const { navigation, article } = this.props;
     const { url } = navigation.state.params;
-    const article = selectArticle(articles, url);
 
     return (
       <View style={styles.container}>
@@ -21,7 +20,7 @@ class NewsDetailsScreen extends Component {
             navigation.navigate('WebArticle', { url });
           }}
           style={styles.body}
-          article={article}
+          article={article()}
         />
       </View>
     );
@@ -36,10 +35,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+function mapStateToProps(state, ownProps) {
   return {
-    articles: state.articles,
+    article: () => {
+      const { navigation } = ownProps;
+      return getArticle(state, navigation.state.params.url);
+    },
   };
-};
+}
 
 export default connect(mapStateToProps)(NewsDetailsScreen);

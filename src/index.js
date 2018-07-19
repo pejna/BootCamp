@@ -1,8 +1,11 @@
 export {
   ActionTypes,
-  invalidateNews,
+  invalidateArticles,
   fetchNewsBegin,
   fetchNewsError,
   fetchNewsSuccess,
   loadArticles,
-} from './actions';
+  getArticle,
+  getNextPage,
+  rootReducer,
+} from './redux';

@@ -1,1 +1,0 @@
-export { selectArticle } from './selectors';

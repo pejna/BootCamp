@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { NewsList } from '../components';
-import { invalidateNews, loadArticles } from '../actions';
+import { invalidateArticles, loadArticles } from '..';
 
 function options({ navigation }) {
   return {
@@ -25,30 +25,59 @@ function options({ navigation }) {
 class NewsListScreen extends Component {
   static navigationOptions = options;
 
+  constructor(props) {
+    super(props);
+
+    this.handleNewsPressed = this.handleNewsPressed.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+  }
+
   componentDidMount() {
     const { onRefresh } = this.props;
     onRefresh();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { isDataValid, dispatch } = this.props;
+    if (isDataValid !== nextProps.isDataValid) {
+      dispatch(loadArticles());
+    }
+  }
+
+  handleRefresh() {
+    const { isLoading, onRefresh } = this.props;
+    if (isLoading) {
+      return;
+    }
+
+    onRefresh();
+  }
+
+  handleLoadMore() {
+    const { isLoading, onLoadMore } = this.props;
+    if (isLoading) {
+      return;
+    }
+
+    onLoadMore();
+  }
+
+  handleNewsPressed(url) {
+    const { navigation } = this.props;
+    navigation.push('NewsDetails', { url });
+  }
+
   render() {
-    const {
-      articles,
-      isLoading,
-      navigation,
-      onRefresh,
-      onLoadMore,
-    } = this.props;
+    const { articles, isLoading, onRefresh } = this.props;
     return (
       <View style={styles.container}>
         <NewsList
           style={styles.body}
           articles={articles}
           onRefresh={onRefresh}
-          onLoadMore={onLoadMore}
+          onLoadMore={this.handleLoadMore}
           isLoading={isLoading}
-          onNewsPressed={url => {
-            navigation.push('NewsDetails', { url });
-          }}
+          onNewsPressed={this.handleNewsPressed}
         />
       </View>
     );
@@ -81,24 +110,19 @@ const mapStateToProps = state => {
     isLoading: state.isLoading,
     articles: state.articles,
     page: state.page,
+    isDataValid: state.valid,
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     onRefresh: () => {
-      if (ownProps.isLoading) {
-        return;
-      }
-      dispatch(invalidateNews());
-      dispatch(loadArticles());
+      dispatch(invalidateArticles());
     },
     onLoadMore: () => {
-      if (ownProps.isLoading) {
-        return;
-      }
       dispatch(loadArticles());
     },
+    dispatch,
   };
 };
 
