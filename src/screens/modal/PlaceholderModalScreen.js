@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
 export default class PlaceholderModalScreen extends Component {
-  onPress() {
+  constructor(props) {
+    super(props);
+
+    this.handlePress = this.handlePress.bind(this);
+  }
+
+  handlePress() {
     const { navigation } = this.props;
     navigation.goBack();
   }
@@ -11,7 +17,7 @@ export default class PlaceholderModalScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>Coming soon!</Text>
-        <Button onPress={this.onPress} title="Dismiss" />
+        <Button onPress={this.handlePress} title="Dismiss" />
       </View>
     );
   }
