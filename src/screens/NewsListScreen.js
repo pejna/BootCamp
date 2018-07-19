@@ -1,22 +1,40 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Button } from 'react-native';
 import { _ } from 'lodash';
 import { fetchNews } from '../api';
-import { NewsListHeader, NewsListBody } from '../components';
+import { NewsListBody } from '../components';
 
-export default class ScreenNewsList extends Component {
+function options({ navigation }) {
+  return {
+    title: 'News',
+    headerLeft: (
+      <View style={styles.headerContainer}>
+        <Button
+          title="Categories"
+          onPress={() => navigation.push('CategoriesModal')}
+        />
+        <Button
+          title="Favorites"
+          onPress={() => navigation.navigate('FavoritesModal')}
+        />
+      </View>
+    ),
+  };
+}
+
+export default class NewsListScreen extends Component {
+  static navigationOptions = options;
+
   constructor(props) {
     super(props);
 
     this.refresh = this.refresh.bind(this);
     this.startLoading = this.startLoading.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
-    this.handleCategoriesPress = this.handleCategoriesPress.bind(this);
-    this.handleFavoritesPress = this.handleFavoritesPress.bind(this);
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
-    const { articles } = props;
+    const articles = [];
 
     this.state = {
       isRefreshing: false,
@@ -96,25 +114,16 @@ export default class ScreenNewsList extends Component {
     });
   }
 
-  handleCategoriesPress() {}
-
-  handleFavoritesPress() {}
-
   handleNewsPressed(article) {
-    const { onNewsSelected } = this.props;
-    const { articles } = this.state;
-    onNewsSelected(article, articles);
+    const { navigation } = this.props;
+
+    navigation.push('NewsDetails', { article });
   }
 
   render() {
     const { articles, isRefreshing } = this.state;
     return (
       <View style={styles.container}>
-        <NewsListHeader
-          style={styles.header}
-          onCategoriesPress={this.handleCategoriesPress}
-          onFavoritesPress={this.handleFavoritesPress}
-        />
         <NewsListBody
           style={styles.body}
           articles={articles}
@@ -143,5 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 10,
+  },
+  headerContainer: {
+    flexDirection: 'row',
   },
 });

@@ -1,3 +1,4 @@
-export { default as ScreenNewsDetails } from './ScreenNewsDetails';
-export { default as ScreenNewsList } from './ScreenNewsList';
-export { default as ScreenWebArticle } from './ScreenWebArticle';
+export { default as NewsDetailsScreen } from './NewsDetailsScreen';
+export { default as NewsListScreen } from './NewsListScreen';
+export { default as WebArticleScreen } from './WebArticleScreen';
+export { PlaceholderModalScreen } from './modal';

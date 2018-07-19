@@ -1,3 +1,2 @@
-export { NewsListItem, NewsListBody, NewsListHeader } from './NewsList';
-export { NewsDetailsBody, NewsDetailsHeader } from './NewsDetails';
-export { WebArticleHeader } from './WebArticle';
+export { NewsListItem, NewsListBody } from './NewsList';
+export { NewsDetailsBody } from './NewsDetails';
