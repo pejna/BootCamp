@@ -1,35 +1,24 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NewsList } from '../components';
 import { invalidateArticles, loadArticles } from '..';
 
-function options({ navigation }) {
-  return {
-    title: 'News',
-    headerLeft: (
-      <View style={styles.headerContainer}>
-        <Button
-          title="Categories"
-          onPress={() => navigation.push('CategoriesModal')}
-        />
-        <Button
-          title="Favorites"
-          onPress={() => navigation.navigate('FavoritesModal')}
-        />
-      </View>
-    ),
-  };
-}
-
 class NewsListScreen extends Component {
-  static navigationOptions = options;
+  static navigatorButtons = {
+    leftButtons: [
+      { title: 'Categories', id: 'categories' },
+      { title: 'Favorites', id: 'favorites' },
+    ],
+  };
 
   constructor(props) {
     super(props);
+    const { navigator } = this.props;
 
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    navigator.setOnNavigatorEvent(this.handleNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -41,6 +30,21 @@ class NewsListScreen extends Component {
     const { isDataValid, dispatch } = this.props;
     if (isDataValid !== nextProps.isDataValid) {
       dispatch(loadArticles());
+    }
+  }
+
+  handleNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      const { navigator } = this.props;
+      switch (event.id) {
+        case 'categories':
+          navigator.showModal({ screen: 'CategoriesModal' });
+          break;
+        case 'favorites':
+          navigator.showModal({ screen: 'FavoritesModal' });
+          break;
+        default:
+      }
     }
   }
 
@@ -63,8 +67,13 @@ class NewsListScreen extends Component {
   }
 
   handleNewsPressed(url) {
-    const { navigation } = this.props;
-    navigation.push('NewsDetails', { url });
+    const { navigator } = this.props;
+    navigator.push({
+      screen: 'NewsDetails',
+      passProps: {
+        url,
+      },
+    });
   }
 
   render() {

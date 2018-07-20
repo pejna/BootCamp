@@ -1,5 +1,4 @@
 export {
-  ActionTypes,
   invalidateArticles,
   fetchNewsBegin,
   fetchNewsError,

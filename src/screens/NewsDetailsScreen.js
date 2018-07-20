@@ -5,19 +5,21 @@ import { NewsDetails } from '../components';
 import { getArticle } from '../redux';
 
 class NewsDetailsScreen extends Component {
-  static navigationOptions = {
+  static navigatorStyle = {
     title: 'Details',
   };
 
   render() {
-    const { navigation, article } = this.props;
-    const { url } = navigation.state.params;
-
+    const { navigator, article, url } = this.props;
     return (
       <View style={styles.container}>
         <NewsDetails
           onWebArticleOpen={() => {
-            navigation.navigate('WebArticle', { url });
+            navigator.push({
+              screen: 'WebArticle',
+              passProps: { url },
+              title: url,
+            });
           }}
           style={styles.body}
           article={article()}
@@ -38,8 +40,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, ownProps) {
   return {
     article: () => {
-      const { navigation } = ownProps;
-      return getArticle(state, navigation.state.params.url);
+      const { url } = ownProps;
+      return getArticle(state, url);
     },
   };
 }

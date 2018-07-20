@@ -9,8 +9,8 @@ export default class PlaceholderModalScreen extends Component {
   }
 
   handlePress() {
-    const { navigation } = this.props;
-    navigation.goBack();
+    const { navigator } = this.props;
+    navigator.dismissModal({ animationType: 'slide-down' });
   }
 
   render() {
