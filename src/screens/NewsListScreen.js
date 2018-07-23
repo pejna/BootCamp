@@ -38,9 +38,10 @@ class NewsListScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isDataValid, dispatch } = this.props;
-    if (isDataValid !== nextProps.isDataValid) {
-      dispatch(loadArticles());
+    const { isDataValid: nextIsDataValid } = nextProps;
+    const { onLoadMore, isDataValid } = this.props;
+    if (isDataValid !== nextIsDataValid) {
+      onLoadMore();
     }
   }
 
@@ -105,26 +106,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     isLoading: state.isLoading,
     articles: state.articles,
     page: state.page,
     isDataValid: state.valid,
   };
-};
+}
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
-    onRefresh: () => {
-      dispatch(invalidateArticles());
-    },
-    onLoadMore: () => {
-      dispatch(loadArticles());
-    },
-    dispatch,
+    onRefresh: () => dispatch(invalidateArticles()),
+    onLoadMore: () => dispatch(loadArticles()),
   };
-};
+}
 
 export default connect(
   mapStateToProps,

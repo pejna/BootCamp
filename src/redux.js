@@ -12,6 +12,14 @@ export function getArticle(state, url) {
   return _.find(articles, { web_url: url });
 }
 
+function createNewArticles(state, payload) {
+  if (payload.page !== 0) {
+    return [...state.articles, ...payload.articles];
+  }
+
+  return [...payload.articles];
+}
+
 export const ACTION_TYPES = {
   NEWS_FETCH_BEGIN: 'NEWS_FETCH_BEGIN',
   NEWS_FETCH_SUCCESS: 'NEWS_FETCH_SUCCESS',
@@ -58,7 +66,8 @@ export function loadArticles() {
     try {
       dispatch(fetchNewsBegin());
 
-      const nextPage = getNextPage(getState());
+      const state = getState();
+      const nextPage = getNextPage(state);
       fetchNews(nextPage).then(articles => {
         dispatch(fetchNewsSuccess(articles, nextPage));
       });
@@ -77,7 +86,6 @@ const initialState = {
 
 export function rootReducer(state = initialState, action) {
   const { type, payload } = action;
-  let articles = [];
   switch (type) {
     case ACTION_TYPES.NEWS_FETCH_BEGIN:
       return {
@@ -85,15 +93,9 @@ export function rootReducer(state = initialState, action) {
         isLoading: true,
       };
     case ACTION_TYPES.NEWS_FETCH_SUCCESS:
-      if (payload.page !== 0) {
-        articles = [...state.articles, ...payload.articles];
-      } else {
-        articles = [...payload.articles];
-      }
-
       return {
         ...state,
-        articles,
+        articles: createNewArticles(state, payload),
         page: payload.page,
         valid: true,
         isLoading: false,
