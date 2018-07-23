@@ -11,7 +11,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     'NewsList',
     () => {
-      console.log('NewsList');
       return NewsListScreen;
     },
     store,
@@ -20,7 +19,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     'NewsDetails',
     () => {
-      console.log('NewsDetails');
       return NewsDetailsScreen;
     },
     store,

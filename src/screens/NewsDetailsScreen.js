@@ -9,8 +9,14 @@ class NewsDetailsScreen extends Component {
     title: 'Details',
   };
 
+  constructor(props) {
+    super(props);
+    console.log('NewsDetails constructor');
+  }
+
   render() {
-    const { navigator, article, url } = this.props;
+    const { navigator, article, url, testSingleton } = this.props;
+    testSingleton.func();
     return (
       <View style={styles.container}>
         <NewsDetails

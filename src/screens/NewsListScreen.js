@@ -14,6 +14,7 @@ class NewsListScreen extends Component {
 
   constructor(props) {
     super(props);
+    console.log('NewsList constructor');
     const { navigator } = this.props;
 
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
@@ -72,12 +73,14 @@ class NewsListScreen extends Component {
       screen: 'NewsDetails',
       passProps: {
         url,
+        testSingleton,
       },
     });
   }
 
   render() {
-    const { articles, isLoading, onRefresh } = this.props;
+    const { articles, isLoading, onRefresh, testSingleton } = this.props;
+    testSingleton.func();
     return (
       <View style={styles.container}>
         <NewsList
