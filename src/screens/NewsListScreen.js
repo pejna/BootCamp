@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
-import { _ } from 'lodash';
-import { fetchNews } from '../api';
-import { NewsListBody } from '../components';
+import { connect } from 'react-redux';
+import { NewsList } from '../components';
+import { invalidateArticles, loadArticles } from '..';
 
 function options({ navigation }) {
   return {
@@ -22,114 +22,62 @@ function options({ navigation }) {
   };
 }
 
-export default class NewsListScreen extends Component {
+class NewsListScreen extends Component {
   static navigationOptions = options;
 
   constructor(props) {
     super(props);
 
-    this.refresh = this.refresh.bind(this);
-    this.startLoading = this.startLoading.bind(this);
-    this.stopLoading = this.stopLoading.bind(this);
     this.handleNewsPressed = this.handleNewsPressed.bind(this);
-    this.loadMore = this.loadMore.bind(this);
-
-    const articles = [];
-
-    this.state = {
-      isRefreshing: false,
-      articles,
-      page: 0,
-      hasArticles: !_.isEmpty(articles),
-    };
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentDidMount() {
-    this.refresh();
+    const { onRefresh } = this.props;
+    onRefresh();
   }
 
-  async refresh() {
-    const { isRefreshing } = this.state;
+  componentWillReceiveProps(nextProps) {
+    const { isDataValid: nextIsDataValid } = nextProps;
+    const { onLoadMore, isDataValid } = this.props;
+    if (isDataValid !== nextIsDataValid) {
+      onLoadMore();
+    }
+  }
 
-    if (isRefreshing) {
+  handleRefresh() {
+    const { isLoading, onRefresh } = this.props;
+    if (isLoading) {
       return;
     }
 
-    const { hasArticles } = this.state;
+    onRefresh();
+  }
 
-    if (hasArticles) {
-      this.setState({ hasArticles: false });
+  handleLoadMore() {
+    const { isLoading, onLoadMore } = this.props;
+    if (isLoading) {
       return;
     }
 
-    this.startLoading();
-
-    const page = 0;
-
-    try {
-      const articles = await fetchNews(page);
-      this.setState({ articles, page });
-    } catch (e) {
-      console.error(e);
-    }
-
-    this.stopLoading();
+    onLoadMore();
   }
 
-  async loadMore() {
-    const { isRefreshing } = this.state;
-
-    if (isRefreshing) {
-      return;
-    }
-
-    this.startLoading();
-
-    const { page } = this.state;
-    const { articles } = this.state;
-
-    try {
-      const nextPage = page + 1;
-      const newArticles = await fetchNews(nextPage);
-      this.setState({
-        articles: [...articles, ...newArticles],
-        page: nextPage,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-
-    this.stopLoading();
-  }
-
-  startLoading() {
-    this.setState({
-      isRefreshing: true,
-    });
-  }
-
-  stopLoading() {
-    this.setState({
-      isRefreshing: false,
-    });
-  }
-
-  handleNewsPressed(article) {
+  handleNewsPressed(url) {
     const { navigation } = this.props;
-
-    navigation.push('NewsDetails', { article });
+    navigation.push('NewsDetails', { url });
   }
 
   render() {
-    const { articles, isRefreshing } = this.state;
+    const { articles, isLoading, onRefresh } = this.props;
     return (
       <View style={styles.container}>
-        <NewsListBody
+        <NewsList
           style={styles.body}
           articles={articles}
-          onRefresh={this.refresh}
-          onLoadMore={this.loadMore}
-          isRefreshing={isRefreshing}
+          onRefresh={onRefresh}
+          onLoadMore={this.handleLoadMore}
+          isLoading={isLoading}
           onNewsPressed={this.handleNewsPressed}
         />
       </View>
@@ -157,3 +105,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    isLoading: state.isLoading,
+    articles: state.articles,
+    page: state.page,
+    isDataValid: state.valid,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onRefresh: () => dispatch(invalidateArticles()),
+    onLoadMore: () => dispatch(loadArticles()),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewsListScreen);

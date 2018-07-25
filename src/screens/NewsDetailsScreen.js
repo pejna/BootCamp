@@ -1,45 +1,26 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { NewsDetailsBody } from '../components';
+import { connect } from 'react-redux';
+import { NewsDetails } from '../components';
+import { getArticle } from '../redux';
 
-export default class NewsDetailsScreen extends Component {
+class NewsDetailsScreen extends Component {
   static navigationOptions = {
     title: 'Details',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleDetailsClose = this.handleDetailsClose.bind(this);
-    this.handleWebArticleOpen = this.handleWebArticleOpen.bind(this);
-
-    const { article } = props.navigation.state.params;
-    this.state = { article };
-  }
-
-  handleDetailsClose() {
-    const { onDetailsClose } = this.props;
-    onDetailsClose();
-  }
-
-  handleWebArticleOpen() {
-    const { navigation } = this.props;
-    const {
-      article: { web_url: url },
-    } = this.state;
-
-    navigation.navigate('WebArticle', { url });
-  }
-
   render() {
-    const { article } = this.state;
+    const { navigation, article } = this.props;
+    const { url } = navigation.state.params;
 
     return (
       <View style={styles.container}>
-        <NewsDetailsBody
-          onWebArticleOpen={this.handleWebArticleOpen}
+        <NewsDetails
+          onWebArticleOpen={() => {
+            navigation.navigate('WebArticle', { url });
+          }}
           style={styles.body}
-          article={article}
+          article={article()}
         />
       </View>
     );
@@ -53,3 +34,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+function mapStateToProps(state, ownProps) {
+  return {
+    article: () => {
+      const { navigation } = ownProps;
+      return getArticle(state, navigation.state.params.url);
+    },
+  };
+}
+
+export default connect(mapStateToProps)(NewsDetailsScreen);

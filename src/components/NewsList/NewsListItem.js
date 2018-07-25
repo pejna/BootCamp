@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-class NewsListItem extends Component {
+export default class NewsListItem extends Component {
   constructor(props) {
     super(props);
-    this.handleItemPress = this.handleItemPress.bind(this);
+
+    this.handlePress = this.handlePress.bind(this);
   }
 
-  handleItemPress() {
+  handlePress() {
     const { newsItem, onPress } = this.props;
-    onPress(newsItem);
+    const { web_url: url } = newsItem;
+
+    onPress(url);
   }
 
   render() {
@@ -20,7 +23,7 @@ class NewsListItem extends Component {
     return (
       <TouchableOpacity
         style={(styles.container, style)}
-        onPress={this.handleItemPress}
+        onPress={this.handlePress}
       >
         <View style={styles.headlineView}>
           <Text style={styles.headlineText}>{headline.main}</Text>
@@ -60,16 +63,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsListItem;
-
 NewsListItem.propTypes = {
   newsItem: PropTypes.shape({
     headline: PropTypes.shape({
       main: PropTypes.string.isRequired,
     }).isRequired,
     source: PropTypes.string,
-    snipped: PropTypes.string,
-    _id: PropTypes.string,
+    snippet: PropTypes.string,
+    web_url: PropTypes.string,
   }),
   onPress: PropTypes.func,
 };

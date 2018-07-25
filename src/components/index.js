@@ -1,2 +1,2 @@
-export { NewsListItem, NewsListBody } from './NewsList';
-export { NewsDetailsBody } from './NewsDetails';
+export { NewsListItem, NewsList } from './NewsList';
+export { NewsDetails } from './NewsDetails';
